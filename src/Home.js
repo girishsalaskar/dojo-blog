@@ -1,17 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 
 const Home = () => {
+    const [name, setName] = useState('Mario');
+    const [age, setAge] = useState(30);
     const clickMeHandler = (e) => {
-        console.log('Hello world!', e);
+        setName('Contra');
+        setAge(33);
     }
-    const clickMeAgainHandler = (name, e) => {
-        console.log('Hello ' + name, e);
-    }
+
     return (
         <div className="home">
             <h2>Home page</h2>
+            { name } - { age }
             <button onClick={clickMeHandler}>Click Me</button>
-            <button onClick={(e)=>{clickMeAgainHandler('Iron Man', e)}}>Click Me Again</button>
         </div>
     );
 }
