@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 
+
 // Custom hooks in react must start with the word 'use'
 const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const abortCont = new window.AbortController();
 
     useEffect(() => {
-        fetch(url)
+        setTimeout( () => {
+            fetch(url, {signal: abortCont.signal})
             .then(res => {
                 if(!res.ok) {
                     throw Error('Could not fetch data!');
@@ -19,10 +22,18 @@ const useFetch = (url) => {
                 setIsLoading(false);
                 setError(null);
             }).catch((e) => {
-                setError(e.message);
-                setIsLoading(false);
+                if(e.name==='AbortError') {
+                    console.log('Aborted!');
+                } else {
+                    setError(e.message);
+                    setIsLoading(false);
+                }
             });
-    }, []);
+        }, 1000);
+        return () => {
+            abortCont.abort();
+        };
+    }, [url]);
 
     return { data, isLoading, error };
 }
