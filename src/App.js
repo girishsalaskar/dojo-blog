@@ -4,6 +4,7 @@ import Home from './Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Create from './Create';
 import BlogDetails from './BlogDetails';
+import NotFound from './NotFound';
 
 class App extends Component {
   render() {
@@ -21,6 +22,9 @@ class App extends Component {
               </Route>
               <Route path='/blog/:id'>
                 <BlogDetails />
+              </Route>
+              <Route path='*'>
+                <NotFound />
               </Route>
             </Switch>
           </div>
